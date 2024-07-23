@@ -27,4 +27,4 @@ jobs:
           - name: 'Build Inventory Image'
             run: |
               docker build --no-cache . --tag ghcr.io/karimdevwm/snapface:latest
-              docker push ghcr.io/karimdevwm/todo_api:latest
+              docker push ghcr.io/karimdevwm/snapface:latest
