@@ -14,6 +14,8 @@ COPY . .
 # Build the Angular application
 RUN npm run build --prod
 
+CMD ["ng", "serve", "--host", "0.0.0.0"]
+
 # # Stage 2: Serve the application with Nginx
 # FROM nginx:alpine
 
