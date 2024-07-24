@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 node:20.16.0-alpine As builder
+FROM node:20-alpine As builder
 
 WORKDIR /usr/src/app
 
