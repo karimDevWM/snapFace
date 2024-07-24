@@ -1,21 +1,11 @@
-# Stage 1: Build the Angular application
-FROM node:20-alpine AS build
+FROM node:alpine
 
-WORKDIR /app
-COPY package.json package-lock.json ./
+WORKDIR /usr/src/app
+
+COPY . /usr/src/app
+
+RUN npm install -g @angular/cli
+
 RUN npm install
-COPY . .
-RUN npm run build --prod
 
-# Stage 2: Serve the application with nginx
-FROM nginx:alpine
-
-COPY --from=build /app/dist/your-angular-app /usr/share/nginx/html
-
-# Copy custom nginx configuration
-COPY nginx.conf /etc/nginx/nginx.conf
-
-# Expose port 80
-EXPOSE 4200
-
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["ng", "serve", "--host", "0.0.0.0"]
