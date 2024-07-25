@@ -26,18 +26,21 @@ jobs:
               docker build --no-cache . --tag ghcr.io/karimdevwm/snapface:latest
               docker push ghcr.io/karimdevwm/snapface:latest
           
-          - name: Deploy to VPS
-            env:
-              SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}
-              VPS_HOST: ${{ secrets.DEPLOY_HOST }}
-              VPS_USER: ${{ secrets.DEPLOY_USERNAME }}
-            run: |
-              echo "$DEPLOY_KEY" > id_rsa
-              chmod 600 id_rsa
-              ssh -o StrictHostKeyChecking=no -i id_rsa $DEPLOY_USERNAME@$DEPLOY_HOST << 'EOF'
-                docker pull ghcr.io/karimdevwm/snapface:latest
-                docker stop snapface-snapFace-1 || true
-                docker rm snapface-snapFace-1 || true
-                docker run -d --name snapface-snapFace-1 ghcr.io/karimdevwm/snapface:latest
-              EOF
-            shell: bash
+      deploy:
+        needs: push-store-image
+        name: deploy image
+        runs-on: ubuntu-latest
+
+        steps:
+        - name: install ssh keys
+        # check this thread tounderstand why its needed:
+        # <https://stackoverflow.com/a/70447517
+          run: |
+            install -m 600 -D /dev/null ~/.ssh/id_rsa
+            echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+            ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
+        - name: connect and pull
+          run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && docker compose pull && docker compose up -d && exit"
+        - name: cleanup
+          run: rm -rf ~/.ssh
+
