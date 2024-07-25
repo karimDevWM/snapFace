@@ -32,7 +32,7 @@ jobs:
               VPS_HOST: ${{ secrets.DEPLOY_HOST }}
               VPS_USER: ${{ secrets.DEPLOY_USERNAME }}
             run: |
-              echo "$SSH_PRIVATE_KEY" > id_rsa
+              echo "$DEPLOY_KEY" > id_rsa
               chmod 600 id_rsa
               ssh -o StrictHostKeyChecking=no -i id_rsa $DEPLOY_USERNAME@$DEPLOY_HOST << 'EOF'
                 docker pull ghcr.io/karimdevwm/snapface:latest
