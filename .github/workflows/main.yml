@@ -26,18 +26,18 @@ jobs:
               docker build --no-cache . --tag ghcr.io/karimdevwm/snapface:latest
               docker push ghcr.io/karimdevwm/snapface:latest
           
-          # - name: remote VPS docker-compose up via ssh
-          #   uses: appleboy/ssh-action@v0.1.5
-          #   env:
-          #     APPTOKEN: ${{ secrets.GITHUB_TOKEN }}
-          #     USERNAME: ${{ secrets.DEPLOY_USERNAME }}
-          #   with:
-          #     host: ${{ secrets.DEPLOY_HOST }}
-          #     username: ${{ secrets.DEPLOY_USERNAME }}
-          #     key: ${{ secrets.DEPLOY_KEY }}
-          #     port: 22
-          #     envs: APPTOKEN,USERNAME
-          #     script: |
-          #       echo $APPTOKEN | docker login ghcr.io -u $USERNAME --password-stdin
-          #       docker compose -f ./docker-compose.yml up --build -d
-
+          - name: Deploy to VPS
+            env:
+              SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+              VPS_HOST: ${{ secrets.VPS_HOST }}
+              VPS_USER: ${{ secrets.VPS_USER }}
+            run: |
+              echo "$SSH_PRIVATE_KEY" > id_rsa
+              chmod 600 id_rsa
+              ssh -o StrictHostKeyChecking=no -i id_rsa $VPS_USER@$VPS_HOST << 'EOF'
+                docker pull your_dockerhub_username/your_image_name:latest
+                docker stop your_container_name || true
+                docker rm your_container_name || true
+                docker run -d --name your_container_name your_dockerhub_username/your_image_name:latest
+              EOF
+            shell: bash
