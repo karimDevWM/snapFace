@@ -28,16 +28,16 @@ jobs:
           
           - name: Deploy to VPS
             env:
-              SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-              VPS_HOST: ${{ secrets.VPS_HOST }}
-              VPS_USER: ${{ secrets.VPS_USER }}
+              SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}
+              VPS_HOST: ${{ secrets.DEPLOY_HOST }}
+              VPS_USER: ${{ secrets.DEPLOY_USERNAME }}
             run: |
               echo "$SSH_PRIVATE_KEY" > id_rsa
               chmod 600 id_rsa
-              ssh -o StrictHostKeyChecking=no -i id_rsa $VPS_USER@$VPS_HOST << 'EOF'
-                docker pull your_dockerhub_username/your_image_name:latest
-                docker stop your_container_name || true
-                docker rm your_container_name || true
-                docker run -d --name your_container_name your_dockerhub_username/your_image_name:latest
+              ssh -o StrictHostKeyChecking=no -i id_rsa $DEPLOY_USERNAME@$DEPLOY_HOST << 'EOF'
+                docker pull ghcr.io/karimdevwm/snapface:latest
+                docker stop snapface-snapFace-1 || true
+                docker rm snapface-snapFace-1 || true
+                docker run -d --name snapface-snapFace-1 ghcr.io/karimdevwm/snapface:latest
               EOF
             shell: bash
