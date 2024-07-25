@@ -1,8 +1,5 @@
 name: Deploy Images to GHCR
 
-#env:
-  #DOTNET_VERSION: '8.0.x'
-
 on:
   pull_request:
     branches:
