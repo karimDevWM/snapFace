@@ -26,7 +26,7 @@ jobs:
               docker build --no-cache . --tag ghcr.io/karimdevwm/snapface:latest
               docker push ghcr.io/karimdevwm/snapface:latest
           
-          - name: remote vps docker-compose up via ssh
+          - name: remote VPS docker-compose up via ssh
             uses: appleboy/ssh-action@v0.1.5
             env:
               APPTOKEN: ${{ secrets.GITHUB_TOKEN }}
