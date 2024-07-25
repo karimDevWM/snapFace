@@ -1,8 +1,5 @@
 name: Deploy Images to GHCR
 
-#env:
-  #DOTNET_VERSION: '8.0.x'
-
 on:
   pull_request:
     branches:
@@ -28,3 +25,19 @@ jobs:
             run: |
               docker build --no-cache . --tag ghcr.io/karimdevwm/snapface:latest
               docker push ghcr.io/karimdevwm/snapface:latest
+          
+          # - name: remote VPS docker-compose up via ssh
+          #   uses: appleboy/ssh-action@v0.1.5
+          #   env:
+          #     APPTOKEN: ${{ secrets.GITHUB_TOKEN }}
+          #     USERNAME: ${{ secrets.DEPLOY_USERNAME }}
+          #   with:
+          #     host: ${{ secrets.DEPLOY_HOST }}
+          #     username: ${{ secrets.DEPLOY_USERNAME }}
+          #     key: ${{ secrets.DEPLOY_KEY }}
+          #     port: 22
+          #     envs: APPTOKEN,USERNAME
+          #     script: |
+          #       echo $APPTOKEN | docker login ghcr.io -u $USERNAME --password-stdin
+          #       docker compose -f ./docker-compose.yml up --build -d
+
