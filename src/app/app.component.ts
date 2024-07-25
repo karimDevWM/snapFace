@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
         0
       );
       this.mySecondSnap = new FaceSnap(
-        'rémi sans famille',
+        'Rémi sans famille',
         'histoire avec beaucoup émotions et tristesses',
         'https://img.cdandlp.com/2012/10/imgL/115732245.jpg',
         new Date(),
