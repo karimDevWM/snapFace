@@ -12,23 +12,30 @@ import { FaceSnap } from './models/face-snap';
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
+
+  faceSnaps!: FaceSnap[];
+
   mySnap!: FaceSnap;
   mySecondSnap!: FaceSnap;
 
   ngOnInit(): void {
-      this.mySnap = new FaceSnap(
-        'Archibald et ses copains',
-        'Mon meilleur ami depuis toujours !',
-        'https://cdn.pixabay.com/photo/2024/03/01/12/46/watercolor-teddy-bear-8606504_1280.png',
-        new Date(),
-        0
-      );
-      this.mySecondSnap = new FaceSnap(
-        'Rémi sans famille',
-        'histoire avec beaucoup émotions et tristesses',
-        'https://img.cdandlp.com/2012/10/imgL/115732245.jpg',
-        new Date(),
-        0
-      );
+      this.faceSnaps = [
+        new FaceSnap(
+          'Archibald et ses copines',
+          'Mon meilleur ami depuis toujours !',
+          'https://cdn.pixabay.com/photo/2024/03/01/12/46/watercolor-teddy-bear-8606504_1280.png',
+          new Date(),
+          255
+        ),
+        new FaceSnap(
+          'Rémi sans famille',
+          'histoire avec beaucoup émotions et tristesses',
+          'https://img.cdandlp.com/2012/10/imgL/115732245.jpg',
+          new Date(),
+          0
+        )
+      ];
+
+      this.faceSnaps[1].setLocation('France');
   }
 }
