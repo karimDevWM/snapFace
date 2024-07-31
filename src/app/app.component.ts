@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
         ),
         new FaceSnap(
           'Rémi sans famille',
-          'histoire avec beaucoup émotions et tristesses',
+          'histoire avec beaucoup émotions et tristesses et innocence',
           'https://img.cdandlp.com/2012/10/imgL/115732245.jpg',
           new Date(),
           0
